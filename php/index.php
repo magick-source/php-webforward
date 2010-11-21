@@ -1,5 +1,5 @@
 <?php
-if(!function_exists("is_admin")) { include("include.php"); }
+if(!function_exists("get_forward")) { include("include.php"); }
 
 $fwd = get_forward( $_SERVER['HTTP_HOST'] );
 

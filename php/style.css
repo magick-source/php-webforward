@@ -1,0 +1,51 @@
+body {
+	background-color: #dfeffc;
+}
+a {
+	color: #2e6e9e;
+	text-decoration: none;
+}
+a:hover, a:active {
+	text-decoration: underline;
+}
+h1 {
+	font-size: 1.3em;
+	color: #e17009;
+}
+#wrapper {
+	text-align: center;
+}
+#wrapper table {
+	margin: auto;
+	text-align:left;
+	border: 1px solid #c5dbec;
+	background-color: #fbec88;
+	border-collapse:collapse;
+	padding:2px;
+}
+
+#wrapper tr.odd {
+	background-color: #d0e5f5;
+	border: 1px solid #79b7e7;
+	color: #1d5987;
+}
+#wrapper tr.odd a {
+	color: #1d5987;
+}
+#wrapper tr.even {
+	background-color: #f5f8f9;
+	border: 1px solid #79b7e7;
+	color: #2e6e9e;
+}
+#wrapper tr.even a {
+	color: #2e6e9e;
+}
+
+#wrapper td {
+	margin:0;
+	padding: 2px 5px 2px 5px;
+}
+#footer {
+	text-align: center;
+	border-top: 1px solid #e17009;
+}
