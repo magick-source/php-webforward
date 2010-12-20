@@ -4,7 +4,7 @@ if(!function_exists('check_login')) { include("include.php"); }
 $smarty->assign("forwardlist",
 		sql_query("SELECT id, hostname, forward, flags&1 active
 			FROM redirects
-			ORDER BY hostname ".
+			ORDER BY forward, hostname ".
 			limit()
 		)
 	);
