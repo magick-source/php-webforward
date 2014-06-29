@@ -3,7 +3,7 @@ include('../include.php');
 
 if ($_CONF['realhost'] and $_CONF['realhost'] !== $_SERVER['HTTP_HOST']) {
   include('../index.php');
-  return;
+  exit;
 }
 
 include("Smarty.class.php");
@@ -31,6 +31,10 @@ function check_login() {
 		if ($res->numRows() == 0) {
 			login_page();
 		}
+    header($_SERVER["SERVER_PROTOCOL"]." 301 Moved Permanently");
+    header('Location: /admin/');
+    exit;
+
 	} else {
 		login_page();
 	}
