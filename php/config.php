@@ -15,4 +15,6 @@ $_CONF['default_forward'] = 'http://www.yahoo.com/';
 
 $_CONF['range']					= 50;
 
+$_CONF['realhost']      = 'webforward.com';
+
 ?>

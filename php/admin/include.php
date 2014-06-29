@@ -1,6 +1,11 @@
 <?php
 include('../include.php');
 
+if ($_CONF['realhost'] and $_CONF['realhost'] !== $_SERVER['HTTP_HOST']) {
+  include('../index.php');
+  return;
+}
+
 include("Smarty.class.php");
 $smarty = new Smarty;
 $smarty->template_dir = __DIR__."/../../templates";
