@@ -31,9 +31,11 @@ function check_login() {
 		if ($res->numRows() == 0) {
 			login_page();
 		}
-    header($_SERVER["SERVER_PROTOCOL"]." 301 Moved Permanently");
-    header('Location: /admin/');
-    exit;
+    if (isset($_POST['username']) ) {
+      header($_SERVER["SERVER_PROTOCOL"]." 301 Moved Permanently");
+      header('Location: /admin/');
+      exit;
+    }
 
 	} else {
 		login_page();
