@@ -1,7 +1,7 @@
 <div id="list">
 
 <a href="./new.php">New Forward</a>
-{include file=pages.tpl}
+{include file='pages.tpl'}
 <table class="data">
 	<tr><th>Hostname</th><th>Forward to</th>
 		<th>Edit</th><th>Delete</th>
@@ -23,7 +23,7 @@
 	</tr>
 {/section}
 </table>
-{include file=pages.tpl}
+{include file='pages.tpl'}
 <a href="./new.php">New Forward</a>
 
 </div>

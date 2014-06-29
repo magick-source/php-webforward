@@ -3,8 +3,8 @@ include('../include.php');
 
 include("Smarty.class.php");
 $smarty = new Smarty;
-$smarty->template_dir = "../../templates";
-$smarty->compile_dir = "../../templates_c";
+$smarty->template_dir = __DIR__."/../../templates";
+$smarty->compile_dir = __DIR__."/../../templates_c";
 
 check_login();
 
