@@ -20,7 +20,7 @@ if (DB::isError($dbconnect)) {
 function get_forward( $host ) {
 	global $_CONF;
 
-	$host = mysql_real_escape_string( $host );
+	$host = mysqli_real_escape_string( $host );
 
 	$res = sql_query(
 		"SELECT forward
