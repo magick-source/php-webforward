@@ -3,8 +3,8 @@ if (!function_exists('check_login')) { include("include.php"); }
 
 $fwdid = $_POST['id'];
 
-$host = mysql_real_escape_string( $_POST['hostname'] );
-$fwd	= mysql_real_escape_string( $_POST['forward'] );
+$host = $dbconnect->escapeSimple( $_POST['hostname'] );
+$fwd	= $dbconnect->escapeSimple( $_POST['forward'] );
 $active = $_POST['active'] ? 1 : 0;
 
 if (!$host || !$fwd) { get_error(); }
