@@ -19,8 +19,9 @@ if (DB::isError($dbconnect)) {
 
 function get_forward( $host ) {
 	global $_CONF;
+  global $dbconnect;
 
-	$host = mysqli_real_escape_string( $host );
+	$host = $dbconnect->escapeSimple( $host );
 
 	$res = sql_query(
 		"SELECT forward
