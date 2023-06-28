@@ -45,6 +45,13 @@ h1 {
 	margin:0;
 	padding: 2px 5px 2px 5px;
 }
+#wrapper th {
+	padding: 3px 5px 3px 5px;
+}
+.list-links a {
+	margin: 5px;
+	padding: 3px;
+}
 #footer {
 	text-align: center;
 	border-top: 1px solid #e17009;

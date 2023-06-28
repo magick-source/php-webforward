@@ -17,28 +17,76 @@ if (DB::isError($dbconnect)) {
 	die("Database error: ". DB::errorMessage($dbconnect));
 }
 
-function get_forward( $host ) {
+function get_domain_settings($domain) {
+	global $dbconnect;
+	$host = $dbconnect->escapeSimple($domain);
+	$recs = sql_query(
+		"SELECT *, flags&1 as active
+			FROM domains
+			WHERE hostname = '$host'
+		"
+	);
+	if (sizeof($recs) == 1) {
+		return $recs[0];
+	}
+	return;
+}
+
+function get_forward( $host, $uri ) {
 	global $_CONF;
   global $dbconnect;
 
-	$host = $dbconnect->escapeSimple( $host );
-
-	$res = sql_query(
-		"SELECT forward
-			FROM redirects
-			WHERE hostname='$host'
-				AND flags&1"
-	);
-
-	$fwd = $res[0]['forward'];
-	if (!$fwd) {
-		$fwd = $_CONF['default_forward'];
-	}
-	if (!$fwd) {
-		$fwd = 'http://www.google.com/';
+	$settings = get_domain_settings($host);
+	if (!$settings) {
+		return default_forward();
 	}
 
-	return $fwd;
+	switch ($settings['domain_type']) {
+		case 'ignore_uri':
+			return $settings['root_forward'];
+			break;
+		case 'forward':
+			return $settings['root_forward'].$uri;
+			break;
+		case 'rule_based':
+			return rule_based_forward($settings, $host, $uri);
+			break;
+		case 'url_based':
+			return url_based_forward($settings, $host, $uri);
+			break;
+	}
+
+}
+
+function rule_based_forward($settings, $host, $uri) {
+	$url = $settings['not_found'] ?? default_forward();
+
+	$search = array('%hostname%', '%hostname_encoded%', '%uri%', '$uri_encoded%');
+	$replace = array($host, urlencode($host), $uri, urlencode($uri));
+	$url = str_replace($search, $replace, $url);
+
+	return $url;
+}
+
+function url_based_forward($settings, $host, $uri) {
+	global $dbconnect;
+	$hostname = $dbconnect->escapeSimple($host);
+	$eUri = $dbconnect->escapeSimple(strtolower($uri));
+	$recs = sql_query("SELECT *, flags&1 as active
+			FROM url_forwards
+			WHERE hostname = '$hostname'
+				AND url = '$eUri'
+				AND flags&1");
+
+	if (sizeof($recs) != 1) {
+		return rule_based_forward($settings, $host, $uri);
+	}
+
+	return $recs[0]['forward'];
+}
+
+function default_forward() {
+	return $_CONF['default_forward'] ?? 'https://www.google.com';
 }
 
 function sql_query($query) {

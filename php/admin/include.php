@@ -2,6 +2,9 @@
 include('../include.php');
 
 if ($_CONF['realhost'] and $_CONF['realhost'] !== $_SERVER['HTTP_HOST']) {
+	$cfg_host = $_CONF['realhost'];
+	$http_host = $_SERVER['HTTP_HOST'];
+	error_log("Got hosts: $cfg_host => $http_host\n\n");
   include('../index.php');
   exit;
 }
@@ -42,11 +45,82 @@ function check_login() {
 	}
 }
 
+function get_list() {
+	return (($_GET['domain'] ?? false)
+		? get_url_list( $_GET['domain'] )
+		: get_domain_list());
+}
+
+function get_domain_list() {
+	global $smarty;
+	$smarty->assign('pagetitle', 'List Domains');
+	$smarty->assign('template', 'list-domains.tpl');
+
+	pages("SELECT id from domains");
+	return sql_query("SELECT
+			d.id,
+			d.hostname,
+			domain_type,
+			root_forward,
+			not_found,
+			count(da.id) as aliases_count,
+			count(u.id) as url_count,
+			d.flags&1 active
+		FROM domains as d
+			LEFT JOIN domain_aliases as da
+				ON d.hostname = da.use_hostname
+			LEFT JOIN url_forwards u
+				ON d.hostname = u.hostname
+		GROUP by d.id
+		ORDER BY hostname ".
+		limit()
+	);
+}
+
+function get_url_list($domain) {
+	global $dbconnect;
+	$host = $dbconnect->escapeSimple($domain);
+
+	$settings = get_domain_settings($domain);
+	if (!($settings && $settings['domain_type'] == 'url_based')) {
+		return error_page("This domain is not configured for URL Based redirects");
+	}
+
+	global $smarty;
+	$smarty->assign('pagetitle', 'List URLs for <i>$host</i>');
+	$smarty->assign('hostname', $domain);
+	$smarty->assign('template', 'list-urls.tpl');
+
+	pages("SELECT id FROM url_forwards where hostname = '$host'");
+	return sql_query("
+		SELECT
+			id,
+			hostname,
+			url,
+			forward,
+			flags&1 as active
+		FROM url_forwards
+		WHERE hostname = '$host'
+		ORDER by url
+		".limit()
+	);
+}
+
 function login_page() {
 	global $smarty;
 
 	$smarty->assign('pagetitle','Login');
 	$smarty->assign('template','login.tpl');
+	$smarty->display('main.tpl');
+	die();
+}
+
+function error_page($error) {
+	global $smarty;
+
+	$smarty->assign('pagetitle', 'Error');
+	$smarty->assign('error_message', $error);
+	$smarty->assign('template', 'error.tpl');
 	$smarty->display('main.tpl');
 	die();
 }
