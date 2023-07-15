@@ -5,6 +5,6 @@ $smarty->assign("forwardlist",
 		get_list()
 	);
 
-$smarty->assign('pageroot', './index.php');
+$smarty->assign('pageroot', './domains.php');
 $smarty->display('main.tpl');
 ?>

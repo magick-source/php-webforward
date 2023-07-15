@@ -1,5 +1,5 @@
-{include file='header.tpl'}
+{include file='include/header.tpl'}
 
 {include file=$template}
 
-{include file='footer.tpl'}
+{include file='include/footer.tpl'}

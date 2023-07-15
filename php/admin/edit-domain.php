@@ -9,6 +9,7 @@ is_error($res);
 if ($res->numRows() != 0) {
 	$smarty->assign('forward', $res->fetchRow(DB_FETCHMODE_ASSOC));
 	$smarty->assign('pagetitle', 'Edit Redirect');
+	$smarty->assign('menu_active','domains');
 	$smarty->assign('template', 'edit-domain.tpl');
 	$smarty->display('main.tpl');
 } else {

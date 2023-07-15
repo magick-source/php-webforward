@@ -61,8 +61,19 @@ function get_forward( $host, $uri ) {
 function rule_based_forward($settings, $host, $uri) {
 	$url = $settings['not_found'] ?? default_forward();
 
-	$search = array('%hostname%', '%hostname_encoded%', '%uri%', '$uri_encoded%');
-	$replace = array($host, urlencode($host), $uri, urlencode($uri));
+	$search = array(
+		'%domain%',
+		'%domain_encoded%',
+		'%uri%',
+		'$uri_encoded%',
+	);
+	$replace = array(
+		$host,
+		urlencode($host),
+		$uri,
+		urlencode($uri),
+
+	);
 	$url = str_replace($search, $replace, $url);
 
 	return $url;
@@ -87,18 +98,6 @@ function url_based_forward($settings, $host, $uri) {
 
 function default_forward() {
 	return $_CONF['default_forward'] ?? 'https://www.google.com';
-}
-
-function sql_query($query) {
-	global $dbconnect;
-
-	$return_array = array();
-	$res = $dbconnect->query($query);
-	is_error($res);
-	while ($row = $res->fetchrow(DB_FETCHMODE_ASSOC)) {
-		array_push($return_array, $row);
-	}
-	return $return_array;
 }
 
 function is_error($resource) {

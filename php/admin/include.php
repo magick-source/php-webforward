@@ -16,6 +16,8 @@ $smarty->compile_dir = __DIR__."/../../templates_c";
 
 check_login();
 
+init_template_vars();
+
 function check_login() {
 	global $dbconnect;
 	if (isset($_POST['username']) && isset($_POST['password'])) {
@@ -169,11 +171,44 @@ function pages($sql) {
 		}
 	}
 	$smarty->assign('pages', $pages);
-	$smarty->assign('pagecount', $pages[count($pages)-1]);
+	$smarty->assign('pagecount', ceil($count/$_CONF['range']));
 }
 
 function get_error() {
 	die( 'There is an error on the parameters' );
+}
+
+function init_template_vars() {
+	global $smarty;
+
+	$smarty->assign('menu_items', [
+		array(
+			'id' => 'dashboard',
+			'url' => '',
+			'title' => 'Dashboard',
+			'icon' => 'tachometer-alt'
+		),
+		array(
+			'id' => 'domains',
+			'url' => 'domains.php',
+			'title' => 'Domains',
+			'icon' => 'chess-rook'
+		),
+		array(
+			'id' => 'urls',
+			'url' => 'urls.php',
+			'title' => 'URLs',
+			'icon' => 'link'
+		),
+		array(
+			'id' => 'tokens',
+			'url' => 'tokens.php',
+			'title' => 'Tokens',
+			'icon' => 'key'
+		),
+	]);
+	$smarty->assign('menu_active','');
+
 }
 
 ?>

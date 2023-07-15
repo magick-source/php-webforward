@@ -1,11 +1,10 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	include('save.php');
-}
-if (isset($_GET['delete']) && $_GET['delete'] == 'y') {
-	include('delete.php');
-}
+if (!function_exists('check_login')) { include("include.php"); }
 
-include "list.php";
+// We need to collect the data for the dashboard
+
+$smarty->assign('template', 'dashboard.tpl');
+$smarty->assign('menu_active','dashboard');
+$smarty->display('main.tpl');
 
 ?>
