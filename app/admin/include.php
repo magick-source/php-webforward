@@ -28,6 +28,12 @@ function init_template_vars() {
 			'icon' => 'chess-rook'
 		),
 		array(
+			'id' => 'aliases',
+			'url' => 'aliases/',
+			'title' => 'Aliases',
+			'icon'	=> 'file-import',
+		),
+		array(
 			'id' => 'urls',
 			'url' => 'urls/',
 			'title' => 'URLs',
@@ -44,7 +50,9 @@ function init_template_vars() {
 }
 
 function get_page() {
-	return $_GET['page'] ?? 1;
+	return
+		(isset($_GET['page']) && is_integer($_GET['page']))
+			? $_GET['page'] : 1;
 }
 
 function build_page($template, $variables = array(), $options = array()) {

@@ -57,7 +57,7 @@ get('/domains/edit/$domain_id', function($domain_id) {
   if ($domain) {
     edit_domain_form($domain);
   } else {
-    NOTIFY_ERROR("Domain is {$domain_id} not found!");
+    NOTIFY_ERROR("Domain with id {$domain_id} not found!");
     redirect('/admin/domains/');
   }
 });

@@ -87,10 +87,29 @@ abstract class dbBase {
     return $obj;
   }
 
+  public static function find_one(array $where): dbBase|false {
+    $table = static::_TABLE();
+
+    $wfields = array();
+    $wvalues = array();
+    foreach ($where as $field => $value) {
+      $wfields[]= "{$field}=?";
+      $wvalues[]= $value;
+    }
+    $query = "SELECT * FROM {$table} WHERE ".implode(' AND ', $wfields);
+
+    $recs = static::sql_query($query, $wvalues);
+
+    if (sizeof($recs) == 1) {
+      return new static($recs[0]);
+    }
+    return false;
+  }
+
   public static function limit(int $page): string {
     global $_CONF;
     $range = $_CONF['range'] ?? 0;
-    if ($range > 0) {
+    if ($range > 0 && $page >= 0) {
       $limit = 'LIMIT '
         .(($page*$range)-$range)
         .','
@@ -102,7 +121,7 @@ abstract class dbBase {
     return $limit;
   }
 
-  public static function get_list_pages(): int {
+  public static function get_list_pages(...$params): int {
     $table  = static::_TABLE();
     $id     = static::_ID();
     $query  = "SELECT count({$id}) from {$table}";
@@ -110,14 +129,14 @@ abstract class dbBase {
     return static::nr_pages($query);
   }
 
-  protected static function nr_pages($query): int {
+  protected static function nr_pages($query, $params=array()): int {
     global $_CONF;
 
     if (!($_CONF['range']>0)) {
       return 1;
     }
 
-    list($count) = static::sql_query($query);
+    list($count) = static::sql_query($query, $params);
     if (!is_integer($count)) {
       $str = _xx__toString($count);
       error_log("count: {$str}");
