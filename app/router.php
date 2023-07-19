@@ -186,4 +186,13 @@ function redirect(string $url, string $code='302') {
   header('Location:'. $url);
 }
 
+function redirect_with_defaults(string|null $url) {
+  global $_CONF;
+  redirect(
+    $url
+    ?? $_CONF['default_forward']
+    ?? 'http://magick-source.net/'
+  );
+}
+
 ?>

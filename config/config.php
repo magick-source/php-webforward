@@ -11,7 +11,7 @@ $_CONF['db_pass']       = "redirect";
 $_CONF['db_host']       = "localhost";
 $_CONF['db_db']         = "webforward";
 
-$_CONF['default_forward'] = 'http://www.yahoo.com/';
+$_CONF['default_forward'] = 'http://www.google.com/?q=never+gona+give+you+up';
 
 $_CONF['range']					= 50;
 
