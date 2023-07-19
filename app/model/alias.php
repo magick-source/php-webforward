@@ -21,6 +21,10 @@ class Alias extends dbBase {
     ".static::limit($page), array($domain));
   }
 
+  public static function get_list_all() {
+    return static::sql_query_objects("SELECT * FROM domain_aliases");
+  }
+
   public static function get_list_pages(...$params):int {
     $domain = $params[0];
     return static::nr_pages(
