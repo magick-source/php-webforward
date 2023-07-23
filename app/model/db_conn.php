@@ -1,28 +1,26 @@
 <?php
 if (!function_exists('get_db_connection')) {
-include('DB.php');
 
-global $_CONF;
+class DB_Conn {
+  static null|mysqli $db_conn;
 
-$dsn = $_CONF['db_type'] . '://'
-      . $_CONF['db_user'] . ':'
-      . $_CONF['db_pass'] . '@'
-      . $_CONF['db_host'] . '/'
-      . $_CONF['db_db'];
+  static function db_connection(): mysqli {
+    global $_CONF;
 
-$dbconn = null;
+    mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    static::$db_conn ??= mysqli_connect(
+      $_CONF['db_host'],
+      $_CONF['db_user'],
+      $_CONF['db_pass'],
+      $_CONF['db_db']
+    );
 
-function get_db_connection() {
-  global $dbconn;
-  global $dsn;
-  if ($dbconn == null) {
-    $dbconn = DB::connect($dsn);
-    if (DB::isError($dbconn)) {
-      die("Database Error: ". DB::errorMessage($dbconn));
-    }
+    return static::$db_conn;
   }
+}
 
-  return $dbconn;
+function get_db_connection(): mysqli {
+  return DB_Conn::db_connection();
 }
 
 }

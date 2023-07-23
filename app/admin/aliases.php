@@ -58,7 +58,7 @@ post('/aliases/$domain', function($domain) {
     $dom = Domain::find_one(["hostname" => $use_hostname]);
     if (!$dom) {
       $errors++;
-      NOTIFY_ERROR("The domains defined in 'Use Hostname' is not configured");
+      NOTIFY_ERROR("The domain defined in 'Use Hostname' is not configured");
     }
   }
 

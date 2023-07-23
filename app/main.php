@@ -1,6 +1,7 @@
 <?php
 
 include_once('include.php');
+include_once('admin/include.php');
 include_once('router.php');
 include_once('redirect.php');
 include_once('app/model/alias.php');

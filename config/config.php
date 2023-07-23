@@ -17,4 +17,7 @@ $_CONF['range']					= 50;
 
 $_CONF['realhost']      = 'localhost:8000';
 
+// Please, please, please set this to something else!
+$_CONF['token_key']     = 'just-some-secret';
+
 ?>

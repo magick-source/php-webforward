@@ -45,17 +45,14 @@ abstract class dbBase {
   public static function sql_query($query, $data = array()) {
     $db = get_db_connection();
 
-    $res = $db->query($query, $data);
-    if (DB::isError($res)) {
-      die($res->getMessage());
-    }
+    $res = $db->execute_query($query, $data);
 
-    if (is_integer($res)) {
+    if (is_bool($res)) {
       return $res;
     }
 
     $return_array = array();
-    while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+    while ($row = $res->fetch_assoc()) {
       $return_array[] = $row;
     }
     return $return_array;
@@ -81,7 +78,7 @@ abstract class dbBase {
 
     list($obj) = static::sql_query_objects(
       "select * FROM {$table} WHERE {$id_field}=?",
-      $id
+      [$id]
     );
 
     return $obj;

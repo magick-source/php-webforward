@@ -1,0 +1,49 @@
+CREATE TABLE `api_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  `token` varchar(64) DEFAULT NULL,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT curtime(),
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `cancelled_at` timestamp NULL DEFAULT NULL,
+  `flags` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `token` (`token`)
+);
+
+CREATE TABLE `domain_aliases` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `domain_alias` varchar(100) DEFAULT NULL,
+  `use_hostname` varchar(100) DEFAULT NULL,
+  `flags` int(11) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `domain_alias` (`domain_alias`)
+);
+
+CREATE TABLE `domains` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `hostname` varchar(100) DEFAULT NULL,
+  `domain_type` enum('ignore_uri','forward','rule_based','url_based') DEFAULT NULL,
+  `root_forward` varchar(255) DEFAULT NULL,
+  `not_found` varchar(255) DEFAULT NULL,
+  `flags` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `url_forwards` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `hostname` varchar(100) DEFAULT NULL,
+  `url` varchar(100) DEFAULT NULL,
+  `forward` varchar(255) DEFAULT NULL,
+  `flags` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(120) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+);
+
