@@ -16,8 +16,8 @@
       <th>Name</th>
       <th>User</th>
       <th>Created At</th>
-      <th>Expires At<th>
-      <th>Cancelled At<th>
+      <th>Expires At</th>
+      <th>Cancelled At</th>
       <th></th>
     </tr>
   </thead>
@@ -26,8 +26,8 @@
       <th>Name</th>
       <th>User</th>
       <th>Created At</th>
-      <th>Expires At<th>
-      <th>Cancelled At<th>
+      <th>Expires At</th>
+      <th>Cancelled At</th>
       <th></th>
     </tr>
   </tfoot>
