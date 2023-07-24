@@ -4,7 +4,7 @@
   <div class="card-header py-3 d-flex justify-content-end">
     <a class="btn btn-outline-secondary m-1"
     href="/admin/">&lt;Back</a>
-    <a class="btn btn-primary m-1" href="{$pageroot}/new">New Token</a>
+    <a class="btn btn-primary m-1" href="{$pageroot}new">New Token</a>
   </div>
   <div class="card-body">
     <div class="table-responsive">
