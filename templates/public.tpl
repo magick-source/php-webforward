@@ -17,7 +17,7 @@
   <!-- Custom styles for this template-->
   <link href="/static/sb-admin/sb-admin-2.min.css" rel="stylesheet">
 
-	<link rel="stylesheet" type="text/css" href="/style.css" />
+	<link rel="stylesheet" type="text/css" href="/static/style.css" />
 </head>
 <body id="page-top">
 	<div id="container">
